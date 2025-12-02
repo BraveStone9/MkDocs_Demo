@@ -1,6 +1,5 @@
 # Welcome to Sogedes Documentation
 
-
 ## MKDocs Documentation Demo
 
 This documentation is a demo site created to showcase how to use **MkDocs** for building and maintaining project documentation. It includes various sections that cover:
@@ -21,7 +20,6 @@ You can follow the chapters in order, or jump directly to the topic you care abo
 6. [Multi-Project Docs & Central Portal](multi-project-portal.md)
 7. [FAQ](faq.md)
 
-
 ---
 
-*Last updated: {{ date }}*
+*Last updated: December 2024*
