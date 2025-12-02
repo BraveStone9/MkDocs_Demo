@@ -1,16 +1,33 @@
 # Welcome to Sogedes Documentation
 
 
-## Commands
+## Overview
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+This is a sample documentation site built with MkDocs. Here you'll find comprehensive guides, tutorials, and reference materials.
 
-## Project layout
+## Quick Start
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Get started with our documentation in just a few steps:
+
+1. Browse the navigation menu on the left
+2. Use the search functionality to find specific topics
+3. Follow our step-by-step tutorials
+
+## Features
+
+- **Easy Navigation** - Organized content structure
+- **Search Functionality** - Find what you need quickly
+- **Responsive Design** - Works on all devices
+- **Code Examples** - Practical implementation guides
+
+## Getting Help
+
+If you need assistance:
+
+- Check our [FAQ](faq.md) section
+- Browse our [Tutorials](tutorials.md)
+- Contact our support team
+
+---
+
+*Last updated: {{ date }}*
