@@ -1,1 +1,13 @@
-site_name: Documentation Demo Site
+site_name: MKDocs Demo – Public & Internal Hosting
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - 1. Getting Started: getting-started.md
+  - 2. Deploying to GitHub Pages: github-pages.md
+  - 3. Challenges with Access Control: access-control.md
+  - 4. Internal Hosting on Company Servers: internal-hosting.md
+  - 5. Updating Documentation: updating-docs.md
+  - 6. Multi-Project Docs & Portal: multi-project-portal.md
+  - FAQ: faq.md

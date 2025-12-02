@@ -1,32 +1,26 @@
 # Welcome to Sogedes Documentation
 
 
-## Overview
+## MKDocs Documentation Demo
 
-This is a sample documentation site built with MkDocs. Here you'll find comprehensive guides, tutorials, and reference materials.
+This documentation is a demo site created to showcase how to use **MkDocs** for building and maintaining project documentation. It includes various sections that cover:
 
-## Quick Start
+- How to set up **MKDocs** in VS Code
+- How to deploy docs to **GitHub Pages**
+- What happens with **access control** on GitHub Free for organizations
+- How to host documentation **internally** on company servers
+- How to **update** and **organize** documentation for multiple projects
 
-Get started with our documentation in just a few steps:
+You can follow the chapters in order, or jump directly to the topic you care about:
 
-1. Browse the navigation menu on the left
-2. Use the search functionality to find specific topics
-3. Follow our step-by-step tutorials
+1. [Getting Started with MKDocs](getting-started.md)
+2. [Deploying to GitHub Pages](github-pages.md)
+3. [Challenges with Access Control](access-control.md)
+4. [Internal Hosting on Company Servers](internal-hosting.md)
+5. [Updating Documentation](updating-docs.md)
+6. [Multi-Project Docs & Central Portal](multi-project-portal.md)
+7. [FAQ](faq.md)
 
-## Features
-
-- **Easy Navigation** - Organized content structure
-- **Search Functionality** - Find what you need quickly
-- **Responsive Design** - Works on all devices
-- **Code Examples** - Practical implementation guides
-
-## Getting Help
-
-If you need assistance:
-
-- Check our [FAQ](faq.md) section
-- Browse our [Tutorials](tutorials.md)
-- Contact our support team
 
 ---
 
