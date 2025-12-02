@@ -58,13 +58,13 @@ http://server.internal.company:8000/
 
 2. Inside this repo, initialize MKDocs:
 
-   ```bash
+   ```
    mkdocs new .
    ```
 
 3. In the `docs/index.md` file, list links to all documentation:
 
-   ```markdown
+   ```
    # Documentation Portal
 
    Welcome. Select a project below.
@@ -74,18 +74,18 @@ http://server.internal.company:8000/
    - [Wave](/wave/)
    - [Star](/star/)
    - [Next Step Recommender](/nextstep/)
-   
+
    ```
 
 4. Build the site:
 
-   ```bash
+   ```
    mkdocs build
    ```
 
 5. Copy the build into the main docs folder on the server:
 
-   ```bash
+   ```
    rsync -av --delete site/ /home/docs/
    ```
 
