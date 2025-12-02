@@ -22,56 +22,49 @@ Only people inside the VPN or allowed internal network can access the documentat
 
 ---
 
-## 2. Preparing the Server
+## 2. Running MKDocs in Development Mode (Temporary)
 
-Connect to the internal server:
-
-```bash
-ssh youruser@server.internal.company
-```
-
-Install required tools:
+While editing or testing documentation on the server, you may use the MKDocs development server:
 
 ```bash
-sudo apt update
-sudo apt install git python3 python3-venv -y
+mkdocs serve -a 0.0.0.0:8010
 ```
 
-Clone your documentation repository:
+You can access it from a browser on the same server:
 
-```bash
-git clone git@github.com:your-org/your-docs-repo.git
-cd your-docs-repo
+```
+http://localhost:8010/
 ```
 
-Create a virtual environment:
+If ports are allowed on the VPN network, other team members can access it as:
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
+```
+http://<server-ip>:8010/
 ```
 
-Install MKDocs:
+### Notes
 
-```bash
-pip install mkdocs mkdocs-material
-```
+- This is intended only for **temporary preview**
+- The development server should not be used for permanent hosting
+- Once development is complete, switch to a **static build**
 
 ---
 
-## 3. Building the Documentation
+## 3. Building the Documentation (Static Site)
 
-Run the MKDocs build command:
+To move from the development server to a stable hosted version:
 
 ```bash
 mkdocs build
 ```
 
-This generates a static site inside the `site/` folder.
+This generates a static site in the `site/` directory.
+
+The static version is more stable and safer to serve internally.
 
 ---
 
-## 4. Organizing the Static Files
+## 4. Central Documentation Folder
 
 Create a central folder to host all documentation sites:
 
@@ -79,76 +72,65 @@ Create a central folder to host all documentation sites:
 mkdir -p /home/docs
 ```
 
-Copy the built site to its own subfolder (example: "wave"):
+Inside it, create a subfolder for each project:
 
 ```bash
-mkdir -p /home/docs/wave
-cp -r site/* /home/docs/wave/
+mkdir -p /home/docs/gai
 ```
 
-Repeat for other documentation projects if needed.
+Copy the built site into this location:
 
-Folder example:
+```bash
+rsync -av --delete site/ /home/docs/gai/
+```
+
+### Example of a multi-project structure
 
 ```
 /home/docs/
+    gai/
     wave/
     star/
     nextstep/
 ```
 
-Each folder contains static HTML files.
-
 ---
 
-## 5. Serving the Documentation
+## 5. Serving the Documentation (Static Hosting)
 
-The simplest option is to use Python’s built-in HTTP server.
-
-Start the server:
+Use Python’s simple static file server:
 
 ```bash
 cd /home/docs
 python3 -m http.server 8000
 ```
 
-Documents can be viewed at:
+Documentation is then available at:
 
 ```
-http://server.internal.company:8000/wave/
-http://server.internal.company:8000/star/
-http://server.internal.company:8000/nextstep/
+http://<server-ip>:8000/gai/
 ```
 
----
-
-## 6. Accessing the Documentation Through SSH
-
-If internal ports are restricted, you can use SSH port forwarding.
-
-On your local machine:
+If the port is blocked, use SSH port forwarding:
 
 ```bash
-ssh -L 8000:localhost:8000 youruser@server.internal.company
+ssh -L 8000:localhost:8000 user@server
 ```
 
-Open in your browser:
+Then open:
 
 ```
-http://localhost:8000
+http://localhost:8000/gai/
 ```
-
-This creates a secure tunnel to the internal server through VPN and SSH.
 
 ---
 
-## 7. Optional Improvements
+## 6. Recommended Hosting Flow
 
-Later, this setup can be enhanced by:
+1. Use `mkdocs serve` only for quick previews during editing  
+2. Stop the dev server when done  
+3. Run `mkdocs build` to generate the static site  
+4. Copy the static site into `/home/docs/<project>/`  
+5. Serve the `/home/docs` folder from one port such as 8000
 
-- Running the server as a systemd service  
-- Using Nginx or Apache instead of `http.server`  
-- Assigning a nicer internal URL  
-- Adding SSL if required  
-
-The simplest setup, however, is enough to keep documentation private and accessible only within the company network.
+This keeps all documentation in one place and makes internal hosting stable.

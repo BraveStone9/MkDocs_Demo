@@ -18,7 +18,8 @@ You can follow the chapters in order, or jump directly to the topic you care abo
 4. [Internal Hosting on Company Servers](internal-hosting.md)
 5. [Updating Documentation](updating-docs.md)
 6. [Multi-Project Docs & Central Portal](multi-project-portal.md)
-7. [FAQ](faq.md)
+7. [Build And Sync Flow](build-and-sync.md)
+8. [FAQ](faq.md)
 
 ---
 

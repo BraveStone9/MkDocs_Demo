@@ -1,155 +1,149 @@
 # Updating Documentation
 
-This guide explains how to keep documentation updated when it is hosted on an internal company server. The goal is to make updates simple and repeatable.
+This guide explains the exact steps required to update any project's documentation in the internal system.  
+It also explains the full flow from editing the markdown files to updating the central hosting directory.
 
 ---
 
-## 1. Local Editing Workflow
+## 1. Two Parts of the Update Process
 
-On your local machine:
+Documentation updates happen in two phases:
 
-1. Open the project in VS Code.
-2. Edit Markdown files inside the `docs/` folder.
-3. Preview changes locally:
+### Phase A — Development (inside the project repository)
+You edit markdown files and test them.
 
-   ```bash
-   mkdocs serve
-   ```
+### Phase B — Production (update the central `/home/docs` folder)
+You build static files and sync them to the hosted directory.
 
-4. Save and commit changes:
-
-   ```bash
-   git add .
-   git commit -m "Update documentation"
-   git push origin main
-   ```
-
-The GitHub repository now contains the updated source files.
+These phases are separate to keep the system clean and stable.
 
 ---
 
-## 2. Prepare the Server for Updates
+## 2. Development Phase (Editing and Testing)
 
-On the internal server:
+When editing documentation:
 
-1. Navigate to the cloned repository:
-
-   ```bash
-   ssh youruser@server.internal.company
-   cd /home/docs-src/your-docs-repo
-   ```
-
-2. Activate the virtual environment:
+1. Open the project repository  
+2. Modify the files in `docs/`  
+3. Start the MKDocs development server:
 
    ```bash
-   source .venv/bin/activate
+   mkdocs serve -a 0.0.0.0:8010
    ```
 
-This ensures the server has the correct tools to rebuild MKDocs.
+4. Open in browser:
+
+   ```
+   http://localhost:8010/
+   ```
+
+5. When done, stop the server:
+
+   ```
+   Ctrl + C
+   ```
+
+**Important:**  
+`mkdocs serve` is only for preview. It does not update the hosted documentation.
 
 ---
 
-## 3. Deployment Script
+## 3. Build the Static Site
 
-To make updates easy, create a script on the server to pull the latest changes and rebuild the site.
+When your changes are ready:
 
-Create the file:
-
-```
-/home/docs-src/your-docs-repo/deploy_docs.sh
+```bash
+mkdocs build
 ```
 
-Add the following content:
+This generates the static website inside:
+
+```
+site/
+```
+
+The `site/` folder contains everything required for hosting.
+
+---
+
+## 4. Update the Central Documentation Folder
+
+Each project has its own folder under `/home/docs`.
+
+For example: **GAI** uses:
+
+```
+/home/docs/gai/
+```
+
+Sync the new build into this folder:
+
+```bash
+rsync -av --delete site/ /home/docs/gai/
+```
+
+This immediately replaces the old documentation with the updated version.
+
+---
+
+## 5. How the Website Gets Updated
+
+The static server (running from `/home/docs`) always serves files directly from disk.
+
+Because of this:
+
+- As soon as the files in `/home/docs/gai/` change  
+- The website updates automatically  
+- No restart is required  
+- No extra commands are needed
+
+Example access paths:
+
+```
+http://<server>:8000/gai/
+http://<server>:8000/wave/
+```
+
+---
+
+## 6. Optional: Deployment Script
+
+To make updates easier, create `deploy_docs.sh` inside each project:
 
 ```bash
 #!/usr/bin/env bash
 set -e
 
-cd /home/docs-src/your-docs-repo
-
+cd /opt/dev-aditya/GAI
 source .venv/bin/activate
 
-echo "Pulling latest changes..."
 git pull
-
-echo "Building documentation..."
 mkdocs build
+rsync -av --delete site/ /home/docs/gai/
 
-echo "Updating public folder..."
-rsync -av --delete site/ /home/docs/wave/
-
-echo "Update complete."
+echo "Documentation updated."
 ```
 
-Make the script executable:
+Make it executable:
 
 ```bash
-chmod +x /home/docs-src/your-docs-repo/deploy_docs.sh
+chmod +x deploy_docs.sh
 ```
 
----
-
-## 4. Running the Update
-
-Whenever documentation is changed and pushed to GitHub:
-
-1. Connect to the server:
-
-   ```bash
-   ssh youruser@server.internal.company
-   ```
-
-2. Run the script:
-
-   ```bash
-   /home/docs-src/your-docs-repo/deploy_docs.sh
-   ```
-
-The script will:
-
-- Pull the latest changes  
-- Build the MKDocs site  
-- Copy the output into the correct public folder  
-
-No manual steps are needed after this.
-
----
-
-## 5. Optional Automatic Updates
-
-You can automate updates further using one of these options:
-
-### Option A — Cron Job
-
-Add a scheduled task to the server:
+Now updating docs becomes:
 
 ```bash
-crontab -e
+./deploy_docs.sh
 ```
-
-Example entry (run every 10 minutes):
-
-```
-*/10 * * * * /home/docs-src/your-docs-repo/deploy_docs.sh
-```
-
-### Option B — GitHub Actions with SSH
-
-A GitHub Actions workflow can:
-
-- connect to the internal server using SSH  
-- execute `deploy_docs.sh` automatically on every push  
-
-This requires SSH keys and internal approval.
 
 ---
 
-## 6. Summary
+## 7. Summary
 
-The simplest update flow is:
+- Edit docs → test with `mkdocs serve`  
+- Build docs → `mkdocs build`  
+- Sync build → `rsync site/ /home/docs/<project>/`  
+- Website updates immediately  
+- Use a deploy script to automate these steps  
 
-1. Edit documentation locally  
-2. Push changes to GitHub  
-3. Run `deploy_docs.sh` on the internal server  
-
-This keeps the internal documentation up-to-date and easy to maintain.
+This is the complete update flow for the internal documentation system.
