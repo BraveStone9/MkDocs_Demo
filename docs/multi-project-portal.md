@@ -1,177 +1,73 @@
-# Multi-Project Documentation and Portal Setup
+# Multi-Project Documentation
 
-This guide explains how to organize documentation for multiple projects and how to create a single portal page that links to all project-specific documentation sites.  
-:contentReference[oaicite:0]{index=0}
-
----
-
-## 1. Why a Portal Is Needed
-
-When each project has its own MKDocs setup:
-
-- Each documentation site is built separately  
-- Each project ends up in its own folder under `/home/docs`  
-- Users need to remember different paths such as:
-  ```
-  http://<server>:8000/gai/
-  http://<server>:8000/wave/
-  http://<server>:8000/star/
-  ```
-
-A central portal allows all documentation to be accessed from one place.
+Advanced guide for managing documentation across multiple projects.
 
 ---
 
-## 2. Folder Structure for Multiple Documentation Projects
+## 1. When You Need This
 
-A recommended structure on the internal server is:
-
-```
-/home/docs/
-    index.html              ← Portal homepage
-    gai/                    ← GAI project docs
-    wave/                   ← Wave project docs
-    star/                   ← Star project docs
-    nextstep/               ← Next Step project docs
-```
-
-Each project gets its static MKDocs build copied into its own folder.
+Use multi-project documentation when you have:
+- Multiple related projects
+- Shared components or libraries
+- Team working on several repositories
+- Need for centralized documentation discovery
 
 ---
 
-## 3. Creating a Portal MKDocs Site
+## 2. Approaches
 
-Create a dedicated repository or folder for your **portal documentation**.
+### Option A: Separate Sites (Recommended)
+Each project has its own documentation site:
+- `project1.github.io` 
+- `project2.github.io`
+- `project3.github.io`
 
-Run:
+**Pros:** Simple, independent deployments  
+**Cons:** Users need multiple bookmarks
 
+### Option B: Monorepo Documentation
+All docs in one repository with sections for each project.
+
+**Pros:** Single site, unified navigation  
+**Cons:** Requires coordination between teams
+
+### Option C: Documentation Portal
+Create a landing page linking to all project docs.
+
+---
+
+## 3. Simple Portal Setup
+
+### Create Portal Repository
 ```bash
-mkdocs new portal
+mkdocs new company-docs-portal
 ```
 
-Inside `portal/docs/index.md`, add links to all project sites:
-
+### Portal Index Page
 ```markdown
-# Documentation Portal
+# Company Documentation
 
 ## Projects
 
-- [GAI Documentation](/gai/)
-- [Wave Documentation](/wave/)
-- [Star Documentation](/star/)
-- [Next Step Documentation](/nextstep/)
+- [Project Alpha](https://team.github.io/project-alpha/)
+- [Project Beta](https://team.github.io/project-beta/)
+- [Shared Libraries](https://team.github.io/shared-libs/)
 ```
 
-You may update this list whenever new documentation folders are added.
+### Deploy Portal
+Deploy like any other MkDocs site to GitHub Pages.
 
 ---
 
-## 4. Build the Portal Site
+## 4. Advanced: Subdomain Organization
 
-Inside the portal directory:
+For larger organizations:
+- `docs.company.com` - Main portal
+- `api.company.com` - API documentation  
+- `guides.company.com` - User guides
 
-```bash
-mkdocs build
-```
-
-This generates the static site in the `site/` folder.
-
-Copy the portal build into the central hosting directory:
-
-```bash
-rsync -av --delete site/ /home/docs/
-```
-
-This updates the root of your internal documentation directory.
-
-The portal will now load at:
-
-```
-http://<server-ip>:8000/
-```
+Requires custom domain setup and DNS configuration.
 
 ---
 
-## 5. Serving All Docs Using One Port
-
-From the `/home/docs` directory:
-
-```bash
-cd /home/docs
-python3 -m http.server 8000
-```
-
-This serves:
-
-- Portal → `http://<server>:8000/`
-- GAI docs → `http://<server>:8000/gai/`
-- Wave docs → `http://<server>:8000/wave/`
-- Star docs → `http://<server>:8000/star/`
-- Etc.
-
-This avoids multiple ports and keeps the system simple.
-
----
-
-## 6. Development vs. Production Hosting
-
-When editing a specific project’s documentation:
-
-### Development Mode (temporary)
-
-Run MKDocs dev server from the project repo:
-
-```bash
-mkdocs serve -a 0.0.0.0:8010
-```
-
-Access using:
-
-```
-http://localhost:8010/
-```
-
-This should be used only for editing and testing, not for long-term hosting.
-
-### Production Hosting (permanent)
-
-Once edits are complete:
-
-1. Stop the dev server  
-2. Run:
-   ```bash
-   mkdocs build
-   ```
-3. Copy the static site to:
-   ```
-   /home/docs/<project>/
-   ```
-4. The static server at `:8000` will immediately reflect the update
-
-This keeps the documentation stable and prevents accidental downtime.
-
----
-
-## 7. Adding a New Project to the Portal
-
-Whenever you create documentation for a new project:
-
-1. Build its static site  
-2. Copy it into `/home/docs/<project-name>/`  
-3. Update the portal's `index.md` with a link  
-4. Rebuild the portal  
-5. Sync the portal build to `/home/docs/`  
-
-This ensures all documentation remains organized in one place.
-
----
-
-## 8. Summary
-
-- Use **one static server** for all documentation  
-- Each project gets its own folder inside `/home/docs`  
-- The **portal** links everything together  
-- Use `mkdocs serve` only for local development  
-- Use `mkdocs build` + `rsync` for production updates  
-
-This structure is easy to maintain and scales well as your documentation grows.
+**This is an advanced topic.** Most teams should start with separate documentation sites per project and add a portal later if needed.

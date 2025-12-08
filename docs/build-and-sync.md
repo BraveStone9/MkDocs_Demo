@@ -1,149 +1,136 @@
-# Build and Sync Flow for Internal Documentation
+# Writing Documentation
 
-This document explains how MKDocs source files from each repository are converted into a static website and how they connect to the central documentation folder located at `/home/docs`.
+This guide covers the basics of creating effective documentation with MkDocs and Markdown.
 
 ---
 
-## 1. Overview of the Documentation System
+## 1. Organizing Your Content
 
-The internal documentation system has **two separate layers**:
-
-### Layer A — Project Repository (Source)
-Each project (e.g., `GAI`, `Wave`, `Star`) has its own Git repository that contains:
-
+### File Structure
 ```
-mkdocs.yml
 docs/
-site/     ← created only after building
+    index.md           # Homepage
+    getting-started.md # User guide
+    api.md            # API reference
+    changelog.md      # Release notes
 ```
 
-- `docs/` contains markdown files written by developers.
-- `mkdocs.yml` defines navigation, theme, structure.
-- Running `mkdocs build` generates a static site in `site/`.
-
-### Layer B — Central Hosting Directory (Served to the network)
-The server hosts documentation from a **central folder**:
-
-```
-/home/docs/
-    gai/
-    wave/
-    star/
-    index.html   ← portal page (optional)
+### Navigation in mkdocs.yml
+```yaml
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api.md
+  - Changelog: changelog.md
 ```
 
-This folder is served over a single static server such as:
+---
 
+## 2. Writing Effective Content
+
+### Page Structure
+Start each page with:
+```markdown
+# Page Title
+
+Brief introduction explaining what this page covers.
+
+## Section 1
+Content here...
+
+## Section 2
+More content...
+```
+
+### Keep It Simple
+- Use short sentences
+- Add code examples
+- Include screenshots when helpful
+- Break up long sections
+
+---
+
+## 3. Useful Markdown Features
+
+### Code Blocks
+````markdown
+```python
+def hello_world():
+    print("Hello, World!")
+```
+````
+
+### Tables
+```markdown
+| Feature | Supported |
+|---------|-----------|
+| Search  | ✅ Yes    |
+| Mobile  | ✅ Yes    |
+```
+
+### Call-out Boxes
+```markdown
+!!! tip
+    This is a helpful tip for users.
+
+!!! warning
+    This warns about potential issues.
+```
+
+### Links
+```markdown
+[External link](https://example.com)
+[Internal link](api.md)
+[Section link](getting-started.md#installation)
+```
+
+---
+
+## 4. Images and Assets
+
+### Adding Images
+1. Create `docs/images/` folder
+2. Add your images there
+3. Reference them:
+```markdown
+![Screenshot](images/screenshot.png)
+```
+
+### File Downloads
+```markdown
+[Download file](files/template.zip)
+```
+
+---
+
+## 5. Testing Your Content
+
+### Preview Locally
 ```bash
-cd /home/docs
-python3 -m http.server 8000
+mkdocs serve
 ```
 
-Anything inside these folders becomes accessible inside the VPN at:
-
-```
-http://<server>:8000/gai/
-http://<server>:8000/wave/
-http://<server>:8000/star/
-```
+### Check for Issues
+- Broken links show as errors
+- Missing images appear as broken
+- Navigation problems are visible immediately
 
 ---
 
-## 2. What `mkdocs build` Actually Does
+## 6. Best Practices
 
-Inside a repository (ex: `GAI`):
+### Content Guidelines
+- Write for your audience (beginners vs experts)
+- Include working code examples
+- Update documentation with code changes
+- Use consistent formatting
 
-```bash
-mkdocs build
-```
-
-This creates or updates:
-
-```
-/opt/dev-aditya/GAI/site/
-```
-
-The `site/` folder is a **complete static website** containing:
-
-- HTML pages
-- CSS + JS files
-- Images and assets
-- Search index
-- Theme files
-
-This folder is **self-contained** and can be copied anywhere — it no longer depends on Python or the repo structure.
+### Maintenance
+- Review and update regularly
+- Remove outdated information
+- Add new features as you build them
+- Get feedback from users
 
 ---
 
-## 3. How Each Repo Connects to `/home/docs`
-
-After running `mkdocs build`, the build output (`site/`) must be synced into the central hosting directory:
-
-```bash
-rsync -av --delete site/ /home/docs/gai/
-```
-
-This means:
-
-- `/opt/dev-aditya/GAI/site/` (build output)
-    → **copied into**
-- `/home/docs/gai/` (served to browser)
-
-The static server reads directly from `/home/docs`, not from the repo.
-
----
-
-## 4. Why We Use a Central Directory
-
-### Benefits:
-- One web server → serves all documentation from different projects
-- One URL → multiple paths (`/gai/`, `/wave/`, etc.)
-- Cleaner structure than running many ports or servers
-- No need to clone every repository inside the web root
-
-### Separation of concerns:
-- Repos are for editing and version control  
-- `/home/docs` is for hosting finished documentation  
-
----
-
-## 5. Full Flow When Updating Documentation
-
-### Step 1 — Developer updates docs locally  
-```
-edit docs/
-git add .
-git commit -m "Update docs"
-git push
-```
-
-### Step 2 — Server pulls changes  
-```
-cd /opt/dev-aditya/GAI
-git pull
-```
-
-### Step 3 — Build the updated site  
-```
-mkdocs build
-```
-
-### Step 4 — Sync build to hosting folder  
-```
-rsync -av --delete site/ /home/docs/gai/
-```
-
-### Step 5 — Website updates instantly  
-Static hosting updates immediately because the files in `/home/docs/gai/` changed.
-
----
-
-## 6. Summary
-
-- Each project builds its own static site inside its repo (`site/`)
-- `/home/docs` hosts the final files served to users
-- `mkdocs build` must be run after every change
-- Syncing (`rsync`) updates the central hosting directory
-- A single server on port 8000 serves all docs
-
-This is the core architecture behind internal hosting.
+**Next:** Learn about [GitHub Pages Deployment](github-pages.md) to publish your docs.

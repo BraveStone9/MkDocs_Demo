@@ -1,73 +1,65 @@
-# Access Control Limitations on GitHub Pages
+# Access Control Considerations
 
-This guide explains the access control behaviour of GitHub Pages and why certain documentation cannot be kept private when using GitHub Free for organizations.
-
----
-
-## 1. Public Repositories
-
-If a repository is public:
-
-- The GitHub Pages site is also public.
-- Anyone with the URL can access the documentation.
-- GitHub Pages does not provide built-in restrictions for public sites.
-
-This works well for open documentation but not for internal content.
+Quick guide to help you decide between public and private documentation hosting.
 
 ---
 
-## 2. Private Repositories on GitHub Free for Organizations
+## 1. GitHub Pages: Public Only
 
-GitHub Pages does not support private documentation when the organization is on the **GitHub Free** plan.
+**GitHub Pages makes your documentation public** - anyone with the URL can access it.
 
-Limitations:
+✅ **Use GitHub Pages for:**
+- Open source projects
+- Public API documentation  
+- Tutorials and guides
+- Portfolio projects
 
-- GitHub Pages cannot be enabled for private repositories on the Free plan.
-- Access control for Pages (restricting access to organization members) is only available on **GitHub Enterprise Cloud**.
-
-This means:
-
-- If the repo is private → GitHub Pages cannot be used.
-- If the repo is public → the Pages site becomes public.
-
----
-
-## 3. Why This Affects Internal Documentation
-
-Internal documentation normally contains:
-
-- Internal procedures  
-- Private APIs  
-- Project-specific information  
-- Content intended only for employees  
-
-With GitHub Free:
-
-- It is not possible to restrict access to internal documentation.
-- Hosting sensitive information publicly is not allowed.
-
-Because of this, documentation that must remain private cannot rely on GitHub Pages.
+❌ **Don't use GitHub Pages for:**
+- Internal company procedures
+- Private APIs
+- Sensitive technical information
+- Employee-only content
 
 ---
 
-## 4. Summary of the Limitation
+## 2. Private Documentation Options
 
-| Plan Type                     | Private Pages Support |
-|------------------------------|------------------------|
-| GitHub Free for Organizations | ❌ Not supported       |
-| GitHub Team                  | ❌ Not supported       |
-| GitHub Enterprise Cloud      | ✔️ Supported           |
+If your documentation contains sensitive information, you need alternatives:
 
-If access needs to be restricted to organization members, GitHub Pages is not a viable option unless the organization upgrades to Enterprise Cloud.
+### GitHub Enterprise Cloud
+- Supports private GitHub Pages
+- Expensive (organization upgrade required)
+- Access control for organization members
+
+### Internal Hosting
+- Host on company servers
+- Access through VPN only
+- Full control over who can access
+- See [Internal Hosting Guide](internal-hosting.md)
 
 ---
 
-## 5. Recommended Next Steps
+## 3. Decision Matrix
 
-To keep documentation private:
+| Content Type | Recommendation |
+|-------------|----------------|
+| Open source project | GitHub Pages |
+| Public API docs | GitHub Pages |
+| Internal procedures | Internal hosting |
+| Private company APIs | Internal hosting |
+| Employee handbook | Internal hosting |
+| Mixed public/private | Separate sites |
 
-- Use an internal company machine or VM
-- Host the built MKDocs site internally
-- Serve it only over VPN or restricted internal networks
+---
 
-Further instructions are provided in the next document.
+## 4. Quick Decision
+
+**Ask yourself: "Can this be public on the internet?"**
+
+- **Yes** → Use GitHub Pages
+- **No** → Use internal hosting
+- **Some parts** → Create separate documentation sites
+
+---
+
+**Need private hosting?** Continue with [Internal Hosting Options](internal-hosting.md).

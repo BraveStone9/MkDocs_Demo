@@ -1,149 +1,74 @@
 # Updating Documentation
 
-This guide explains the exact steps required to update any project's documentation in the internal system.  
-It also explains the full flow from editing the markdown files to updating the central hosting directory.
+Simple workflow for keeping your documentation up-to-date.
 
 ---
 
-## 1. Two Parts of the Update Process
+## 1. Basic Update Workflow
 
-Documentation updates happen in two phases:
-
-### Phase A — Development (inside the project repository)
-You edit markdown files and test them.
-
-### Phase B — Production (update the central `/home/docs` folder)
-You build static files and sync them to the hosted directory.
-
-These phases are separate to keep the system clean and stable.
-
----
-
-## 2. Development Phase (Editing and Testing)
-
-When editing documentation:
-
-1. Open the project repository  
-2. Modify the files in `docs/`  
-3. Start the MKDocs development server:
-
+### Local Development
+1. **Edit your documentation** files in `docs/`
+2. **Preview changes** locally:
    ```bash
-   mkdocs serve -a 0.0.0.0:8010
+   mkdocs serve
    ```
+3. **Review** your changes at `http://127.0.0.1:8000`
 
-4. Open in browser:
-
+### Publish Changes
+4. **Commit and push** to GitHub:
+   ```bash
+   git add .
+   git commit -m "Update documentation"
+   git push origin main
    ```
-   http://localhost:8010/
-   ```
-
-5. When done, stop the server:
-
-   ```
-   Ctrl + C
-   ```
-
-**Important:**  
-`mkdocs serve` is only for preview. It does not update the hosted documentation.
+5. **GitHub Actions** automatically deploys your changes
 
 ---
 
-## 3. Build the Static Site
+## 2. Testing Before Publishing
 
-When your changes are ready:
-
+### Check for Issues
 ```bash
-mkdocs build
+# Build and check for errors
+mkdocs build --strict
 ```
 
-This generates the static website inside:
-
-```
-site/
-```
-
-The `site/` folder contains everything required for hosting.
+### Common Checks
+- ✅ All links work correctly
+- ✅ Code examples are accurate
+- ✅ Images display properly
+- ✅ Navigation is logical
 
 ---
 
-## 4. Update the Central Documentation Folder
+## 3. GitHub Pages Updates
 
-Each project has its own folder under `/home/docs`.
+After pushing to `main` branch:
+1. GitHub Actions builds your site
+2. Documentation updates automatically
+3. Changes are live within 2-3 minutes
 
-For example: **GAI** uses:
-
-```
-/home/docs/gai/
-```
-
-Sync the new build into this folder:
-
-```bash
-rsync -av --delete site/ /home/docs/gai/
-```
-
-This immediately replaces the old documentation with the updated version.
+### Monitor Deployment
+- Check **Actions** tab in your repository
+- Watch for build errors or warnings
+- Verify changes appear on your live site
 
 ---
 
-## 5. How the Website Gets Updated
+## 4. Best Practices
 
-The static server (running from `/home/docs`) always serves files directly from disk.
+### Regular Maintenance
+- Update docs when you change code
+- Remove outdated information
+- Keep screenshots current
+- Review and improve clarity
 
-Because of this:
-
-- As soon as the files in `/home/docs/gai/` change  
-- The website updates automatically  
-- No restart is required  
-- No extra commands are needed
-
-Example access paths:
-
-```
-http://<server>:8000/gai/
-http://<server>:8000/wave/
-```
+### Collaboration
+- Use pull requests for major changes
+- Get reviews from team members
+- Document your documentation standards
+- Keep a changelog for major updates
 
 ---
 
-## 6. Optional: Deployment Script
-
-To make updates easier, create `deploy_docs.sh` inside each project:
-
-```bash
-#!/usr/bin/env bash
-set -e
-
-cd /opt/dev-aditya/GAI
-source .venv/bin/activate
-
-git pull
-mkdocs build
-rsync -av --delete site/ /home/docs/gai/
-
-echo "Documentation updated."
-```
-
-Make it executable:
-
-```bash
-chmod +x deploy_docs.sh
-```
-
-Now updating docs becomes:
-
-```bash
-./deploy_docs.sh
-```
-
----
-
-## 7. Summary
-
-- Edit docs → test with `mkdocs serve`  
-- Build docs → `mkdocs build`  
-- Sync build → `rsync site/ /home/docs/<project>/`  
-- Website updates immediately  
-- Use a deploy script to automate these steps  
-
-This is the complete update flow for the internal documentation system.
+**This covers the essential workflow.** For advanced deployment patterns, see [Multi-Project Documentation](multi-project-portal.md).

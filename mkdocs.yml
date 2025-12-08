@@ -1,14 +1,81 @@
-site_name: MKDocs Demo – Public & Internal Hosting
+site_name: MkDocs Starter Guide
+site_description: Complete guide for adding professional documentation to any project
+site_author: Sogedes Team
+site_url: https://github.com/BraveStone9/MkDocs_starter-guide
+
+repo_url: https://github.com/BraveStone9/MkDocs_starter-guide
+repo_name: GitHub
+edit_uri: edit/main/docs/
+
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - search.highlight
+    - navigation.top
+    - content.code.copy
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
 
 nav:
   - Home: index.md
-  - 1. Getting Started: getting-started.md
-  - 2. Deploying to GitHub Pages: github-pages.md
-  - 3. Challenges with Access Control: access-control.md
-  - 4. Internal Hosting on Company Servers: internal-hosting.md
-  - 5. Updating Documentation: updating-docs.md
-  - 6. Multi-Project Docs & Portal: multi-project-portal.md
-  - 7. Build and Sync Flow: build-and-sync.md
-  - FAQ: faq.md
+  - Essential Setup:
+    - Getting Started: getting-started.md
+    - Basic Configuration: basic-configuration.md
+    - Writing Documentation: build-and-sync.md
+    - GitHub Pages Deployment: github-pages.md
+  - Customization:
+    - Themes and Customization: themes-customization.md
+    - Updating Documentation: updating-docs.md
+  - Advanced Topics:
+    - Access Control: access-control.md
+    - Internal Hosting: internal-hosting.md
+    - Multi-Project Setup: multi-project-portal.md
+  - Help:
+    - FAQ: faq.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sogedes
+
+copyright: Copyright &copy; 2024 Sogedes Team
