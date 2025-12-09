@@ -9,7 +9,7 @@ This guide will help you add professional documentation to any project using **M
 - How to install and set up MkDocs in minutes
 - How to write and organize documentation 
 - How to deploy docs automatically with GitHub Pages
-- When and how to use alternative hosting options
+- How to customize themes and styling
 
 ---
 
@@ -27,13 +27,8 @@ Follow these steps in order for the smoothest experience:
 5. [Themes and Customization](themes-customization.md) - Make it look professional
 6. [Updating Documentation](updating-docs.md) - Workflow for maintaining docs
 
-### 🏢 **Advanced Topics** (Optional)
-7. [Access Control Considerations](access-control.md) - Public vs private documentation
-8. [Internal Hosting Options](internal-hosting.md) - For private documentation
-9. [Multi-Project Documentation](multi-project-portal.md) - Managing multiple docs
-
 ### ❓ **Help**
-10. [FAQ](faq.md) - Common questions and troubleshooting
+7. [FAQ](faq.md) - Common questions and troubleshooting
 
 ---
 

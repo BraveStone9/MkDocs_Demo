@@ -46,10 +46,6 @@ nav:
   - Customization:
     - Themes and Customization: themes-customization.md
     - Updating Documentation: updating-docs.md
-  - Advanced Topics:
-    - Access Control: access-control.md
-    - Internal Hosting: internal-hosting.md
-    - Multi-Project Setup: multi-project-portal.md
   - Help:
     - FAQ: faq.md
 

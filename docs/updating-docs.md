@@ -71,4 +71,4 @@ After pushing to `main` branch:
 
 ---
 
-**This covers the essential workflow.** For advanced deployment patterns, see [Multi-Project Documentation](multi-project-portal.md).
+**This covers the essential workflow for keeping your documentation up-to-date.**

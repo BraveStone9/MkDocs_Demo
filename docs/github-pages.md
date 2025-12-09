@@ -18,7 +18,7 @@ This guide shows you how to automatically deploy your MkDocs documentation to Gi
 - Internal company procedures
 - Sensitive technical information
 
-For private docs, see [Access Control Considerations](access-control.md).
+**Note:** GitHub Pages makes your documentation public. For private documentation, you'll need alternative hosting solutions.
 
 ---
 
