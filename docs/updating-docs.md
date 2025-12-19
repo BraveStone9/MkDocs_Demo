@@ -1,107 +1,127 @@
 # Updating Documentation
 
-Simple workflow for keeping your documentation up-to-date.
+This page explains how to update documentation and how those updates become visible after publishing.
 
 ---
 
-## 1. Basic Update Workflow
+## 1. Documentation Structure
 
-### Local Development
-1. **Edit your documentation** files in `docs/`
-2. **Preview changes** locally:
-   ```bash
-   mkdocs serve
-   ```
-3. **Review** your changes at `http://127.0.0.1:8000`
+Documentation must exist inside the repository.
 
-### Publish Changes
-4. **Commit and push** to GitHub:
-   ```bash
-   git add .
-   git commit -m "Update documentation"
-   git push origin main
-   ```
-5. **GitHub Actions** automatically deploys your changes
+Each repository or branch that contains documentation must include:
+- `mkdocs.yml`
+- a `docs/` folder
+- Markdown (`.md`) files inside the `docs/` folder
+
+Example structure:
+```text
+my-repo/
+├── mkdocs.yml
+└── docs/
+    ├── index.md
+    ├── getting-started.md
+    └── updating-docs.md
+```
+
+Documentation files must always be written in Markdown format (`.md`).
 
 ---
 
-## 2. How Published Documentation is Updated
+## 2. Updating Documentation Locally
 
-### Central Documentation Server
-Published documentation is handled by a central documentation server that:
+### Edit Documentation
+- Update existing Markdown files inside `docs/`
+- Add new `.md` files if needed
+- Update navigation in `mkdocs.yml` when new pages are added
 
+### Preview Changes
+Before pushing changes, preview documentation locally:
+```bash
+mkdocs serve
+```
+
+Preview the site at:
+```
+http://127.0.0.1:8000/
+```
+
+---
+
+## 3. Commit and Push Changes
+
+Only documentation source files are required:
+- `docs/`
+- `mkdocs.yml`
+
+Example:
+```bash
+git add docs/ mkdocs.yml
+git commit -m "docs: update documentation"
+git push
+```
+
+**Notes:**
+- Documentation can be maintained per branch
+- Feature branches may have their own documentation
+- The generated `site/` folder is not required in the repository
+
+---
+
+## 4. How Published Documentation Is Updated
+
+Published documentation is handled by a central documentation server.
+
+### The Documentation Server:
 - Retrieves documentation source files from repositories
-- Builds static documentation sites using MkDocs  
+- Builds static documentation sites using MkDocs
 - Publishes the generated output under a shared documentation portal
 
-### Repository and Branch Structure
-Each repository and branch is published to a dedicated path:
-- `/gai/main/` - Main branch documentation
-- `/gai/superaiassist/` - Feature branch documentation  
-- `/project-name/branch-name/` - General pattern
+### Documentation Publishing Structure
+Documentation is published using the following structure:
+```
+/<repository>/<branch>/
+```
 
-**Note:** Only documentation source files are retrieved for publishing. Application source code is not required.
+**Examples:**
+- `/gai/main/`
+- `/gai/superaiassist/`
 
-### When Updates Become Visible
-After documentation changes are pushed:
-1. The central documentation server fetches the latest documentation sources
-2. The site is rebuilt using MkDocs
-3. The published content is updated in place
-
-Updates become visible immediately after the publish step completes. **No web server restart is required.**
+Only documentation files are used for publishing. Application source code is not required.
 
 ---
 
-## 3. Testing Before Publishing
+## 5. When Updates Become Visible
 
-### Check for Issues Locally
+After documentation changes are pushed:
+1. The documentation server pulls the latest documentation files
+2. MkDocs rebuilds the site
+3. The updated site is published automatically
+
+The published documentation updates immediately after the build completes. **No manual restart is required.**
+
+---
+
+## 6. Testing Before Publishing
+
+To validate documentation locally:
 ```bash
-# Build and check for errors
 mkdocs build --strict
 ```
 
-### Common Checks
-- ✅ All links work correctly
-- ✅ Code examples are accurate  
-- ✅ Images display properly
-- ✅ Navigation is logical
+### Recommended Checks:
+- ✅ Links work correctly
+- ✅ Navigation is correct
+- ✅ Code examples are accurate
+- ✅ Images render properly
 
 ---
 
-## 4. GitHub Pages Updates
+## 7. Best Practices
 
-After pushing to `main` branch:
-1. **GitHub Actions starts** automatically
-2. **Builds your documentation** using MkDocs
-3. **Deploys to GitHub Pages**
-4. **Changes are live** within 2-3 minutes
-
-### Monitor Deployment
-- Check **Actions** tab in your repository
-- Watch for build errors or warnings
-- Verify changes appear on your live site
-
----
-
-## 5. Best Practices
-
-### Regular Maintenance
-- Update docs when you change code
-- Remove outdated information
-- Keep screenshots current
-- Review and improve clarity
-
-### Collaboration
-- Use pull requests for major changes
-- Get reviews from team members
-- Document your documentation standards
-- Keep a changelog for major updates
-
-### Version Control Tips
-- Use descriptive commit messages for documentation changes
-- Tag important documentation releases
-- Keep documentation changes in sync with code changes
-- Consider using conventional commit messages
+- Update documentation alongside code changes
+- Keep documentation clear and concise
+- Use meaningful commit messages
+- Keep documentation structure consistent across repositories
 
 ---
 
